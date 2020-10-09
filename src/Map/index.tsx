@@ -105,9 +105,10 @@ export interface MapProps extends BMap.MapOptions, BMap.MapEvents {
 
 export default React.forwardRef<MapProps & { map?: BMap.Map }, MapProps>(({ className, style, children, ...props }, ref) => {
   const elmRef = useRef<HTMLDivElement>(null);
-  const { setContainer, container, setCenter, setAutoLocalCity, map } = useMap({ container: elmRef.current as (string | HTMLDivElement), ...props });
+  const { setContainer, container, setCenter, setAutoLocalCity, setViewport, map } = useMap({ container: elmRef.current as (string | HTMLDivElement), ...props });
   useEffect(() => setContainer(elmRef.current as string | HTMLDivElement | undefined), [elmRef.current]);
   useEffect(() => { props.center && setCenter(props.center) }, [props.center]);
+  useEffect(() => { props.viewport && setViewport(props.viewport) }, [props.viewport]);
   useEffect(() => setAutoLocalCity(props.autoLocalCity!), [props.autoLocalCity]);
   useImperativeHandle(ref, () => ({ ...props, map, BMap, container: elmRef }), [map]);
   const childs = React.Children.toArray(children);

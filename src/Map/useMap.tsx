@@ -11,7 +11,7 @@ export interface UseMap extends MapProps, MapChildProps {
 }
 
 export default (props: UseMap = {}) => {
-  const { widget, minZoom, maxZoom, mapType, enableHighResolution, enableAutoResize, enableMapClick, viewport, viewportOptions } = props;
+  const { widget, minZoom, maxZoom, mapType, enableHighResolution, enableAutoResize, enableMapClick, viewportOptions } = props;
   const [map, setMap] = useState<BMap.Map>();
   const [zoom, setZoom] = useState(props.zoom || 15);
   const [container, setContainer] = useState(props.container);
@@ -36,6 +36,8 @@ export default (props: UseMap = {}) => {
   }, [container, map]);
 
   const [center, setCenter] = useState(props.center || '上海');
+
+  const [viewport, setViewport] = useState(props.viewport || []);
   /**
    * 根据参数设置中心点
    */
@@ -47,13 +49,16 @@ export default (props: UseMap = {}) => {
       }
       map.centerAndZoom(cent!, zoom!);
     }
+  }, [center, map]);
+
+  useEffect(() => {
     if (map && viewport) {
       map.setViewport(viewport, {
         enableAnimation: true,
         ...viewportOptions,
       });
     }
-  }, [center, viewport, map]);
+  }, [viewport, map]);
   
   const [autoLocalCity, setAutoLocalCity] = useState(props.autoLocalCity);
   /**
@@ -86,6 +91,7 @@ export default (props: UseMap = {}) => {
     map, setMap,
     container, setContainer,
     center, setCenter,
+    viewport, setViewport,
     autoLocalCity, setAutoLocalCity,
   }
 }
