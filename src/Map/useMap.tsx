@@ -53,10 +53,11 @@ export default (props: UseMap = {}) => {
 
   useEffect(() => {
     if (map && viewport) {
-      map.setViewport(viewport, {
+      const { center, zoom } = map.getViewport(viewport.map((item: { lng: number; lat: number; }) => new BMap.Point(item.lng, item.lat)), {
         enableAnimation: true,
         ...viewportOptions,
       });
+      map.centerAndZoom(center, zoom);
     }
   }, [viewport, map]);
   
