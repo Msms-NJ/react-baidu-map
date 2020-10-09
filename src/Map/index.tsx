@@ -94,6 +94,13 @@ export interface MapProps extends BMap.MapOptions, BMap.MapEvents {
    * 将全景实例与Map类进行绑定
    */
   panorama?: BMap.Panorama;
+
+  /**
+   * 根据提供的地理区域或坐标设置地图视野，调整后的视野会保证包含提供的地理区域或坐标
+   */
+  viewport?: BMap.Viewport;
+
+  viewportOptions?: BMap.ViewportOptions;
 }
 
 export default React.forwardRef<MapProps & { map?: BMap.Map }, MapProps>(({ className, style, children, ...props }, ref) => {

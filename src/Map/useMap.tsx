@@ -11,7 +11,7 @@ export interface UseMap extends MapProps, MapChildProps {
 }
 
 export default (props: UseMap = {}) => {
-  const { widget, minZoom, maxZoom, mapType, enableHighResolution, enableAutoResize, enableMapClick } = props;
+  const { widget, minZoom, maxZoom, mapType, enableHighResolution, enableAutoResize, enableMapClick, viewport, viewportOptions } = props;
   const [map, setMap] = useState<BMap.Map>();
   const [zoom, setZoom] = useState(props.zoom || 15);
   const [container, setContainer] = useState(props.container);
@@ -47,7 +47,13 @@ export default (props: UseMap = {}) => {
       }
       map.centerAndZoom(cent!, zoom!);
     }
-  }, [center, map]);
+    if (map && viewport) {
+      map.setViewport(viewport, {
+        enableAnimation: true,
+        ...viewportOptions,
+      });
+    }
+  }, [center, viewport, map]);
   
   const [autoLocalCity, setAutoLocalCity] = useState(props.autoLocalCity);
   /**
